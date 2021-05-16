@@ -1,0 +1,83 @@
+<style type="text/css">
+	.descript_prod {
+		font-size: 0.8em;
+	}
+</style>
+
+<div class="row">
+	<div class="col-12">
+		<h1 class="text-center text-muted my-4">Monitoramento</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<h2>Anúncios cadastrados</h2>
+		<hr>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		{{#each item}}
+		<div class="card mb-2">
+		  <div class="card-body">
+		  	<div class="row descript_prod">
+		  		<div class="col-1">
+		  			<img src="{{thumbnail}}">
+		  		</div>
+		  		<div class="col-2 d-flex align-items-center">
+					<span><strong>{{title}}</strong></span>
+		  		</div>
+		  		<div class="col-4">
+		  			<table class="table mx-1">
+					  <thead>
+					    <tr>
+					      <th scope="col">Total Vendas</th>
+					      <th scope="col">30 Dias</th>
+					      <th scope="col">7 Dias</th>
+					      <th scope="col">24 Horas</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <td>Mark</td>
+					      <td>Otto</td>
+					      <td>@mdo</td>
+					      <td>@mdo</td>
+					    </tr>
+					  </tbody>
+					</table>
+		  		</div>
+		  		<div class="col-3">
+		  			<table class="table mx-1">
+					  <thead>
+					    <tr>
+					      <th scope="col">Preço ant.</th>
+					      <th scope="col">Preço atual</th>
+					      <th scope="col">Diferença</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <td scope="row">R$ {{base_price}}</td>
+					      <td>R$ 0,00</td>
+					      <td>R$ 0,00</td>
+					    </tr>
+					  </tbody>
+					</table>
+		  		</div>
+		  		<div class="col-2 d-flex justify-content-end align-items-center">
+		  			<span class="mx-1"> >> </span>
+		  			<a href="#" class="mx-1">Ver produto</a>
+		  		</div>
+		  
+		  	</div>
+		    
+		  </div>
+		</div>
+		{{else}}
+		{{/each}}
+	</div>
+</div>
+
