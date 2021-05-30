@@ -2,6 +2,13 @@
 	.descript_prod {
 		font-size: 0.8em;
 	}
+
+	.price_down{
+		color: red;
+	}
+	.price_up{
+		color: green;
+	}
 </style>
 
 <div class="row">
@@ -27,7 +34,8 @@
 		  			<img src="{{thumbnail}}">
 		  		</div>
 		  		<div class="col-2 d-flex align-items-center">
-					<span><strong>{{title}}</strong></span>
+		  			<a href="{{permalink}}" target="blank"><strong>{{title}}</strong></a>
+					
 		  		</div>
 		  		<div class="col-4">
 		  			<table class="table mx-1">
@@ -62,7 +70,7 @@
 					    <tr>
 					      <td scope="row">R$ {{ant_price}}</td>
 					      <td>R$ {{atu_price}}</td>
-					      <td>R$ 0,00</td>
+					      <td class="{{price_status}}">R$ {{dif_price}}</td>
 					    </tr>
 					  </tbody>
 					</table>

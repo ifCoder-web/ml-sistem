@@ -21,6 +21,9 @@ router.get("/", (req, res) => {
 		res.render("./monitor/dash_monitor",{
 			item: data.map(data => data.toJSON()),
 		})
+	}).catch((error) => {
+		console.log(error)
+		res.send("Houve um erro ao consultar dados")
 	})
 	
 })
@@ -77,29 +80,32 @@ router.post("/save", urlencodedParser, (req, res) => {
 				
 			}).catch(async (error) => {
 				console.log("Deu ruim: "+error)
+				res.redirect("/monitor/cadastro")
 			})
-			 
-			// res.send(data)
+
 		})
 		.catch((error) => {
 			console.log("Deu um erro: "+error)
+			res.redirect("/monitor/cadastro")
 		})
 })
 
 
-router.get('/update-itens', async (req, res) => { // ADICIONA VALORES NOS ARRAYS DE PREÇO E QTD. DE VENDAS
+router.get("/update-itens", async (req, res) => {
+	// CONSULTA DB
 	await Anuncio.find().then(async (data) => {
 		const dados = data.map(data => data.toJSON())
-		for(var cont = 0; cont < dados.length; cont++){ // Varre todos os itens do banco de dados
+		const ids_prom = dados.map(async function(bancoAtu, idx, array, thisArg){ // MAPEIA TODOS OS ITENS DO BANCO E GUARDA O ID DE CADA UM NO ARRAY "ids"
 			// CONFIG
 				let add_banco = []
 			// PRECIFICAÇÃO
-				let list_price = dados[cont].price // Array de valores registrado no item
+				let list_price = bancoAtu.price // Array de valores registrado no item
 			// QTD. VENDAS
-				let list_vendas = dados[cont].qtd_vendas // Array de qtd de vendas registrados no item
+				let list_vendas = bancoAtu.qtd_vendas // Array de qtd de vendas registrados no item
 			// Item ID/URI
-				let ml_id = dados[cont].id_item.replace('MLB', '')
+				let ml_id = bancoAtu.id_item.replace('MLB', '')
 				const URI = "http://localhost:8081/api/item/"+ml_id
+
 
 			// CONSULTANDO API PROPRIA	
 				await fetch(URI)
@@ -124,31 +130,50 @@ router.get('/update-itens', async (req, res) => { // ADICIONA VALORES NOS ARRAYS
 							})
 						}
 
+						// TRABALHANDO PREÇO ANTERIOR
+						if(list_price.length > 1){
+							var preco_anterior = list_price[list_price.length - 2].iten_price
+						}else{
+							var preco_anterior = list_price[list_price.length - 1].iten_price
+						}
+						var dif_preco =  Number(dado[0].api.price[0].iten_price) - Number(preco_anterior)
+						var status_price = "price_static"
+						if(dif_preco < 0){
+							dif_preco =  -1 * dif_preco
+							status_price = "price_down"
+						}else if(dif_preco > 0){
+							status_price = "price_up"
+						}
+
 						if(add_banco.length > 0){
 							// PUSH NO BANCO DE DADOS
-								await Anuncio.updateOne({ _id: dados[cont]._id }, {
+								await Anuncio.updateOne({ _id: bancoAtu._id }, {
 									// Itens a serem atualizados
 										// Adicionando itens novos nos arrays
 										$push: add_banco[0],
 										t_vendas: dado[0].scrap.qtd_vendas[0].nvendas,
-										atu_price: dado[0].api.price[0].iten_price, // Preço atual
-										ant_price: list_price[list_price.length -1].iten_price, // Preço anterior
+										atu_price: Number(dado[0].api.price[0].iten_price).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2}), // Preço atual
+										ant_price: Number(preco_anterior).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2}), // Preço anterior
+										dif_price: dif_preco.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2}),
+										price_status: status_price
 								}).then(() => {
-									console.log("Item atualizado com sucesso! "+dado[0].title)					
+									console.log("Item adicionado no banco de dados! "+ bancoAtu.title)					
 								}).catch((error) => {
-									console.error("Erro ao atualizar o item: "+dado[0].id_item, error)
+									console.error("Erro ao atualizar o item: "+bancoAtu.title, error)
 								})
 						}
 						
-					})
+					})	
 					.catch((error) => {
 						console.error("Erro ao consultar API propria: "+error)
 					})
 
-		}
-		res.redirect('/monitor/update-period')
+		})
+		await Promise.all(ids_prom).then(() => { // AGUARDA TODAS AS PROMISES RESOLVEREM
+			res.redirect('/monitor/update-period')
+		})
 	}).catch((error) => {
-		console.error("Houve um erro ao consultar o banco de dados: "+error)
+		console.log("Erro ao consultar DB "+error)
 	})
 })
 
@@ -191,7 +216,7 @@ router.get('/update-period',async (req, res) => { // ATUALIZAR O PERIODO DA QTD.
 
 				// ATUALIZANDO CADA VENDA NO SEU RESPECTIVO PERIODO
 					for(var i = 1; i < list_vendas.length; i++){ 
-						await separaVendas(list_vendas[i].data, list_vendas[i].nvendas, list_vendas[i - 1].nvendas)	
+						await separaVendas(list_vendas[i].data, list_vendas[i].nvendas, list_vendas[i - 1].nvendas)
 					}
 
 				// ATUALIZANDO ITEM NO BANCO DE DADOS
