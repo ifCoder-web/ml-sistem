@@ -47,6 +47,7 @@ router.post("/save", urlencodedParser, (req, res) => {
 				}else{
 					const item = new Anuncio({
 						id_item: data.api.id_item,
+						status: data.api.status,
 						title: data.api.title,
 						price: [{ 
 							iten_price: data.api.price[0].iten_price,
@@ -145,6 +146,19 @@ router.get("/update-itens", async (req, res) => {
 							status_price = "price_up"
 						}
 
+						// Atualiza o status do anúncio
+						if(dado[0].api.status != bancoAtu.status){
+							await Anuncio.updateOne({ _id: bancoAtu._id }, {
+									// Atualizando status
+										status: dado[0].api.status
+								}).then(() => {
+									console.log("Mudança de status! "+ bancoAtu.title)					
+								}).catch((error) => {
+									console.error("Erro ao atualizar status: "+bancoAtu.title, error)
+								})
+						}
+
+						// Atualiza demais parâmentros do anúncio
 						if(add_banco.length > 0){
 							// PUSH NO BANCO DE DADOS
 								await Anuncio.updateOne({ _id: bancoAtu._id }, {
@@ -248,6 +262,18 @@ router.get('/update-period',async (req, res) => { // ATUALIZAR O PERIODO DA QTD.
 	})
 
 	res.redirect("/monitor")
+})
+
+
+// DELETANDO ITENS
+router.get('/delete/:id', async (req, res) => {
+	await Anuncio.deleteOne({_id: req.params.id}).then(() => {
+		console.log("Anuncio deletado com sucesso!")
+		res.redirect('/monitor')
+	}).catch((error) => {
+		console.error("Houve um erro ao deletar o  anuncio! "+error)
+		res.redirect('/monitor')
+	})
 })
 
 

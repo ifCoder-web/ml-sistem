@@ -4,6 +4,7 @@ const { Schema } = mongoose
 // Model
 const anuncio_schema = new Schema({
 	"id_item": { type: String, require: true },
+	"status": { type: String, require: true },
 	"title": { type: String, require: true },
 	"price": [
 		{

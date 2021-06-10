@@ -46,6 +46,7 @@ router.get("/item/:id", async (req, res) => {
 					"start_time": corpo.body.start_time,
 					"permalink": corpo.body.permalink,
 					"thumbnail": corpo.body.thumbnail,
+					"status": corpo.body.status
 				}
 			}).catch((error) => {
 				console.log("Deu um erro: "+error)
