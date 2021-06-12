@@ -1,0 +1,66 @@
+<h1>PRECIFIC</h1>
+
+<div id="categ"></div>
+<button id="btn_send" class="btn btn-success">Send</button>
+<div>
+	<ul id="itens">
+		{{!-- conteudo dinâmico --}}
+	</ul>
+</div>
+
+
+<script type="text/javascript">
+	const btn = document.querySelector("#btn_send");
+	const itens = document.querySelector("#itens");
+	const categ = document.querySelector("#categ");
+	let arr_categorias = []
+
+	btn.addEventListener('click', function(eve){
+		const URI = "https://api.mercadolibre.com/sites/MLB/categories";
+		fetch(URI).then((response) => {
+			return response.json()
+		}).then((response) => {
+
+			response.forEach((data) => {
+				let item = document.createElement("li");
+				item.classList.add("lista_item")
+
+				item.innerHTML = `<a class="add" href="https://api.mercadolibre.com/categories/${data.id}">${data.name}</a>`
+
+				itens.appendChild(item)
+			})
+			
+		});
+
+
+		// ITENS DA LISTA DE CATEGORIAS
+
+		itens.addEventListener('click', function(event){
+			event.preventDefault()
+			var cat = event.target
+			if(cat.classList.contains("add")){
+				arr_categorias.push(cat.innerText)
+			}
+
+			categ.innerHTML = arr_categorias;
+			console.log(cat.innerText)
+		}, false)
+
+
+
+
+	},false);
+
+
+
+	
+
+
+
+</script>
+
+
+{{!-- list.push({
+					categoria: data.name,
+					id: data.id
+				}) --}}

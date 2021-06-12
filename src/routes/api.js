@@ -4,6 +4,9 @@ const request = require('request-promise')
 const cheerio = require('cheerio')
 const router = express.Router()
 
+
+// ------ MONITOR ------
+
 router.get("/item/:id", async (req, res) => {
 	let api_item = {} // Objeto da API vazio
 
@@ -64,6 +67,54 @@ router.get("/item/:id", async (req, res) => {
 	})
 
 			
+})
+
+
+// ------ PRECIFIC ------
+
+router.get('/child_category/:category_id', (req, res) => { // DEVOLVE AS CATEGORIAS FILHAS
+	const URI_api = `https://api.mercadolibre.com/categories/${req.params.category_id}`
+	fetch(URI_api) // Consultando API do ML
+		.then((res) => res.json())
+		.then(async (data) => {
+			var child_category = [{
+				"id": data.id,
+				"name": data.name,
+				"path_from_root": data.path_from_root,
+				"children_categories": data.children_categories,
+				"minimum_price": data.settings.minimum_price
+			}]
+
+			res.send(child_category)
+
+		}).catch((error) => {
+			console.log("Houve um erro ao consultar API de taxas do ML: "+error)
+			res.redirect("/precific")
+		})	
+})
+
+router.get('/fee/:category_id', (req, res) => { // DEVOLVE AS TAXAS DO MERCADO LIVRE
+	const URI_api = `https://api.mercadolibre.com/sites/MLB/listing_prices?price=100&category_id=${req.params.category_id}`
+	fetch(URI_api) // Consultando API do ML
+		.then((res) => res.json())
+		.then(async (data) => {
+			var fee = []
+			data.forEach((currentValue, index, arr) => {
+				if(currentValue.listing_type_name == "Premium" || currentValue.listing_type_name == "Clássico"){
+					fee.push({
+						"listing_type_name": currentValue.listing_type_name,
+						"sale_fee_amount": currentValue.sale_fee_amount,
+						"currency_id": currentValue.currency_id
+					})
+				}
+			})
+
+			res.send(fee)
+
+		}).catch((error) => {
+			console.log("Houve um erro ao consultar API de taxas do ML: "+error)
+			res.redirect("/precific")
+		})
 })
 
 module.exports = router
