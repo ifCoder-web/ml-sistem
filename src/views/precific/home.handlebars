@@ -1,5 +1,11 @@
 <h1>PRECIFIC</h1>
 
+<form class="form-control mb-4" action="#">
+  <label for="classic">Clássico: </label>
+  <input type="text" id="classic" class="form-control">
+  <label for="premium">Premium: </label>
+  <input type="text" id="premium" class="form-control">
+</form>
 <div id="categ"></div>
 <button id="btn_send" class="btn btn-success">Send</button>
 <div>
@@ -13,54 +19,89 @@
 	const btn = document.querySelector("#btn_send");
 	const itens = document.querySelector("#itens");
 	const categ = document.querySelector("#categ");
+	const taxa_class = document.querySelector("#classic");
+	const taxa_premi = document.querySelector("#premium");
 	let arr_categorias = []
 
-	btn.addEventListener('click', function(eve){
-		const URI = "https://api.mercadolibre.com/sites/MLB/categories";
-		fetch(URI).then((response) => {
-			return response.json()
-		}).then((response) => {
+	// CATEGORIAS BASE
+		btn.addEventListener('click', function(eve){ // CLICANDO NO BTN DE CATEGORIAS
+			const URI = "https://api.mercadolibre.com/sites/MLB/categories";
 
-			response.forEach((data) => {
-				let item = document.createElement("li");
-				item.classList.add("lista_item")
+			// ZERAR A LISTA ANTERIOR, CATEGORIAS SELECIONADAS E TAXAS
+			itens.innerHTML = ""
+			arr_categorias = []
+			taxa_premi.value = "";
+			taxa_class.value = "";
 
-				item.innerHTML = `<a class="add" href="https://api.mercadolibre.com/categories/${data.id}">${data.name}</a>`
+			categ.innerHTML = arr_categorias; // PASSA O ARRAY VAZIO PARA A TELA
 
-				itens.appendChild(item)
-			})
-			
-		});
+			fetch(URI)
+				.then((response) => { // FAZ A CONSULTA NA API DO ML PARA OBTER AS CATEGORIAS BASE
+					return response.json()
+				})
+				.then((response) => {			
+					response.forEach((data) => {
+						let item = document.createElement("li");
+						item.classList.add("lista_item")
 
+						item.innerHTML = `<a class="sub_categoria" href="https://api.mercadolibre.com/categories/${data.id}">${data.name}</a>`
 
-		// ITENS DA LISTA DE CATEGORIAS
+						itens.appendChild(item)
+					})
+					
+				});
 
-		itens.addEventListener('click', function(event){
+		},false);
+
+	// ITENS DA LISTA DE CATEGORIAS
+		itens.addEventListener('click', function(event){ // CLICANDO EM ALGUMA CATEGORIA BASE
 			event.preventDefault()
 			var cat = event.target
-			if(cat.classList.contains("add")){
+			if(cat.classList.contains("sub_categoria")){
 				arr_categorias.push(cat.innerText)
+
+				// CONSULTA CATEGORIAS FILHAS
+				const URI = cat.getAttribute("href")
+				fetch(URI)
+					.then((response) => {
+						return response.json()
+					})
+					.then((response) => {
+						// ZERAR A LISTA ANTERIOR
+						itens.innerHTML = ""
+
+						if(response.children_categories.length == 0){ // ULTIMA CATEGORIA
+							// CONSULTA NA API DE TAXA
+							const URI = `/api/fee/${response.id}`;
+							fetch(URI)
+								.then((response) => {
+									return response.json()
+								})
+								.then((response) => {
+									response.forEach((data) => {
+										if(data.listing_type_name == "Premium"){
+											taxa_premi.value = data.sale_fee_amount;
+										}else{
+											taxa_class.value = data.sale_fee_amount;
+										}
+									})
+									console.log(response)
+								})
+						}
+
+						response.children_categories.forEach((data) => {
+							let item = document.createElement("li");
+							item.classList.add("lista_item")
+							item.innerHTML = `<a class="sub_categoria" href="https://api.mercadolibre.com/categories/${data.id}">${data.name}</a>`
+							itens.appendChild(item)
+						})
+						
+					});
+
 			}
 
 			categ.innerHTML = arr_categorias;
 			console.log(cat.innerText)
-		}, false)
-
-
-
-
-	},false);
-
-
-
-	
-
-
+		}, false);
 
 </script>
-
-
-{{!-- list.push({
-					categoria: data.name,
-					id: data.id
-				}) --}}
