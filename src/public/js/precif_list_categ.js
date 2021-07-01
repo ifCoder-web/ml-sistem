@@ -8,6 +8,8 @@
 		const taxa_premi = document.querySelector("#premium");
 		const clateg_list = document.querySelector("#clateg_list");
 		const btn_close_class_list = document.querySelector("#btn_close_class_list");
+		const taxa_fixa = document.querySelector("#taxa_fixa");
+		const min_valor = document.querySelector("#min_valor");
 		let arr_categorias = []
 
 	// FUNCTIONS
@@ -30,38 +32,40 @@
 		// Função que busca as categorias filhas
 		function categ_child(URI){
 			fetch(URI)
-					.then((response) => {
-						return response.json()
+				.then((response) => {
+					return response.json()
+				})
+				.then((response) => {
+					// ZERAR A LISTA ANTERIOR
+					itens.innerHTML = ""
+					if(response.children_categories.length == 0){ // ULTIMA CATEGORIA
+						// Preço minimo para anunciar
+						min_valor.value = Number(response.settings.minimum_price)
+						// CONSULTA NA API DE TAXA
+						const URI = `/api/fee/${response.id}`;
+						fetch(URI)
+							.then((response) => {
+								return response.json()
+							})
+							.then((response) => {
+								response.forEach((data) => {
+									if(data.listing_type_name == "Premium"){
+										taxa_premi.value = data.sale_fee_amount;
+									}else{
+										taxa_class.value = data.sale_fee_amount;
+									}
+								})
+							})
+							io_class_list("close")
+					}
+					response.children_categories.forEach((data) => {
+						let item = document.createElement("li");
+						item.classList.add("list-group")
+						item.innerHTML = `<a class="sub_categoria list-group-item list-group-item-action" href="https://api.mercadolibre.com/categories/${data.id}">${data.name}</a>`
+						itens.appendChild(item)
 					})
-					.then((response) => {
-						// ZERAR A LISTA ANTERIOR
-						itens.innerHTML = ""
-						if(response.children_categories.length == 0){ // ULTIMA CATEGORIA
-							// CONSULTA NA API DE TAXA
-							const URI = `/api/fee/${response.id}`;
-							fetch(URI)
-								.then((response) => {
-									return response.json()
-								})
-								.then((response) => {
-									response.forEach((data) => {
-										if(data.listing_type_name == "Premium"){
-											taxa_premi.value = data.sale_fee_amount;
-										}else{
-											taxa_class.value = data.sale_fee_amount;
-										}
-									})
-								})
-								io_class_list("close")
-						}
-						response.children_categories.forEach((data) => {
-							let item = document.createElement("li");
-							item.classList.add("list-group")
-							item.innerHTML = `<a class="sub_categoria list-group-item list-group-item-action" href="https://api.mercadolibre.com/categories/${data.id}">${data.name}</a>`
-							itens.appendChild(item)
-						})
-						path_categ(response.path_from_root)						
-					});
+					path_categ(response.path_from_root)						
+				});
 		}
 
 		// Função que controla a lista de categorias selecionadas
@@ -98,6 +102,7 @@
 				itens.innerHTML = "";
 				taxa_premi.value = "";
 				taxa_class.value = "";
+				min_valor.value = "";
 				categ.innerHTML = arr_categorias; // PASSA O ARRAY VAZIO PARA A TELA
 				categ_base(URI) // chamando função
 				io_class_list("open") // mostra a lista

@@ -115,6 +115,58 @@ router.get('/fee/:category_id', (req, res) => { // DEVOLVE AS TAXAS DO MERCADO L
 			console.log("Houve um erro ao consultar API de taxas do ML: "+error)
 			res.redirect("/precific")
 		})
+});
+
+
+router.get('/frete', async (req, res) => {
+
+	const table_sul = []
+	const table_outros = []
+
+	const URI = "https://www.mercadolivre.com.br/ajuda/3362"
+	const response = await request(URI);
+	let $ = cheerio.load(response);
+
+	const table_values = $("#root-app .cx-peach-layout .cx-peach-layout__wrapper .portal-content .cx-peach-content .cx-peach-content__data .cx-peach-content__show .faq-item").eq(1).html()
+
+	$ = cheerio.load(table_values);
+
+	const table_first = $(".faq-item__hidden-content details div").eq(0).html()
+	const table_last = $(".faq-item__hidden-content details div").eq(1).html()
+
+	function gera_tabela(table_base, table_receb){
+		$ = cheerio.load(table_base);
+		let tds = $("table tbody tr").text();
+		// let resp = $("table tbody").html();
+		// console.log(tds)
+		// tds.forEach((currentValue, index, arr) => {
+		// 	$ = cheerio.load(tds);
+		// 	// vars
+		// 	let range = $("td").eq(0).text();
+		// 	let full = $("td table tbody tr td").eq(0);
+		// 	let outros = $("td table tbody tr td").eq(1);
+
+		// 	table_receb.push({
+		// 		range: range,
+		// 		full: full,
+		// 		outros: outros
+		// 	})
+		// })
+		return tds
+	}
+
+	console.log(gera_tabela(table_first, table_sul))
+
+	res.send($.html())
+
 })
+
+
+
+
+
+
+
+
 
 module.exports = router

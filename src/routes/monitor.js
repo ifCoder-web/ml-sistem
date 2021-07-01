@@ -264,7 +264,6 @@ router.get('/update-period',async (req, res) => { // ATUALIZAR O PERIODO DA QTD.
 	res.redirect("/monitor")
 })
 
-
 // DELETANDO ITENS
 router.get('/delete/:id', async (req, res) => {
 	await Anuncio.deleteOne({_id: req.params.id}).then(() => {

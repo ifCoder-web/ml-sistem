@@ -1,76 +1,78 @@
 {{!-- CSS --}}
 
 <style type="text/css">
-	
 	.clateg_list{
 		z-index: 100;
 		position: absolute;
 		background: #fff;
 	}
-
 	.clateg_list #itens{
 		width: 350px;
 		max-height: 500px;
 		overflow-y: auto;
 	}
-
 </style>
 
 
-<h1>PRECIFIC</h1>
 
 
-
+<h1 class="my-4">Precificação MercadoLivre</h1>
 
 <form class="form-control mb-4 bg-light" action="#">
-	
 {{!-- CUSTOS --}}
 	<div class="row">
-		<div class="col col-4 px-3">
+		<div id="custo_container" class="col col-4 px-3">
 			<h3>Custos</h3>
-			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow">
-				<div class="mb-1 row">
-			    <label for="prod_value" class="col-form-label">Preço bruto do produto</label>
-			    <div class="input-group">
-			    	<span class="input-group-text" id="basic-addon1">R$</span>
-			      <input type="text" class="form-control" id="prod_value">
-			    </div>
-			  </div>
-			  <div class="mb-1 row">
-			    <label for="emba_value" class="col-form-label">Embalagem</label>
-			    <div class="input-group">
-			    	<span class="input-group-text" id="basic-addon1">R$</span>
-			      <input type="text" class="form-control" id="emba_value">
-			    </div>
-			  </div>
-			  <div class="mb-1 row">
-			    <label for="deslo_value" class="col-form-label">Gastos com deslocamento</label>
-			    <div class="input-group">
-			    	<span class="input-group-text" id="basic-addon1">R$</span>
-			      <input type="text" class="form-control" id="deslo_value">
-			    </div>
-			  </div>
-			  <div class="mb-1 row">
-			    <label for="outros_value" class="col-form-label">Outros</label>
-			    <div class="input-group">
-			    	<span class="input-group-text" id="basic-addon1">R$</span>
-			      <input type="text" class="form-control" id="outros_value">
-			    </div>
-			  </div>
+			<div id="custos" class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
+
+				<div class="row mb-1">
+					<div class="col col-6">
+				    <label for="custo_prod_value" class="col-form-label">Preço bruto do produto</label>
+				    <div class="input-group">
+				    	<span class="input-group-text" id="basic-addon1">R$</span>
+				      <input type="text" class="form-control custo_soma" id="custo_prod_value">
+				    </div>
+				  </div>
+				  <div class="col col-6">
+				    <label for="custo_emba_value" class="col-form-label">Embalagem</label>
+				    <div class="input-group">
+				    	<span class="input-group-text" id="basic-addon1">R$</span>
+				      <input type="text" class="form-control custo_soma" id="custo_emba_value">
+				    </div>
+				  </div>
+				</div>
+				
+				<div class="row mb-1">
+					<div class="col col-6">
+				    <label for="custo_deslo_value" class="col-form-label">Deslocamento</label>
+				    <div class="input-group">
+				    	<span class="input-group-text" id="basic-addon1">R$</span>
+				      <input type="text" class="form-control custo_soma" id="custo_deslo_value">
+				    </div>
+				  </div>
+				  <div class="col col-6">
+				    <label for="custo_outros_value" class="col-form-label">Outros</label>
+				    <div class="input-group">
+				    	<span class="input-group-text" id="basic-addon1">R$</span>
+				      <input type="text" class="form-control custo_soma" id="custo_outros_value">
+				    </div>
+				  </div>
+				</div>  
+
 			</div>
-		  <div class="border border-1 px-2 py-2 mb-4 bg-white shadow">
+		  <div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
 			  <div class="mb-1 row">
 			    <div class="col-6">
-			    	<label for="lucro_pretend" class="col-form-label">Lúcro desejado</label>
+			    	<label for="custo_lucro_pretend" class="col-form-label">Lúcro desejado</label>
 				    <div class="input-group">
-				      <input type="text" class="form-control" id="lucro_pretend">
+				      <input type="number" class="form-control" id="custo_lucro_pretend"  min="1" max="50000" value="0">
 				    	<span class="input-group-text" id="basic-addon1">%</span>
 				    </div>
 			    </div>
 			    <div class="col-6">
-			    	<label for="qtd_prod" class="col-form-label">Qtd. de produto</label>
+			    	<label for="custo_qtd_prod" class="col-form-label">Qtd. de produto</label>
 				    <div class="input-group">
-				      <input type="text" class="form-control" id="qtd_prod">
+				      <input type="number" class="form-control" id="custo_qtd_prod" min="1" max="50000" step="1" value="1">
 				    </div>
 			    </div>
 			  </div>
@@ -79,7 +81,7 @@
 			    <label for="custo_invest_total" class="col-form-label">Investimento total</label>
 			    <div class="input-group">
 			    	<span class="input-group-text" id="basic-addon1">R$</span>
-			      <input type="text" readonly class="form-control" id="custo_invest_total">
+			      <input type="text" readonly class="form-control" id="custo_invest_total" value="0,00">
 			    </div>
 			  </div>
 			</div>
@@ -90,21 +92,26 @@
 		<div class="col col-4 px-3">
 			<h3>Config.</h3>
 
-			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow">
-				<div class="mb-1 row">
-			    <label for="classic" class="col-form-label">Clássico</label>
-			    <div class="input-group">
-			      <input type="text" class="form-control" id="classic">
-			    	<span class="input-group-text" id="basic-addon1">%</span>
-			    </div>
-			  </div>
-			  <div class="mb-1 row">
-			    <label for="premium" class="col-form-label">Premium</label>
-			    <div class="input-group">
-			      <input type="text" class="form-control" id="premium">
-			    	<span class="input-group-text" id="basic-addon1">%</span>
-			    </div>
-			  </div>
+			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
+
+				<div class="row mb-1">
+					<h4 class="col-form-label">Taxa ML</h4>
+					<div class="col col-6">
+				    <label for="classic" class="col-form-label">Clássico</label>
+				    <div class="input-group">
+				      <input type="number" class="form-control" id="classic" min="0" max="20">
+				    	<span class="input-group-text" id="basic-addon1">%</span>
+				    </div>
+				  </div>
+				  <div class="col col-6">
+				    <label for="premium" class="col-form-label">Premium</label>
+				    <div class="input-group">
+				      <input type="number" class="form-control" id="premium" min="0" max="20">
+				    	<span class="input-group-text" id="basic-addon1">%</span>
+				    </div>
+				  </div>
+				</div>
+				
 
 			  <div class="mb-1 mt-3 row">      
 		      <div class="input-group">
@@ -116,7 +123,7 @@
 
 			  <div class="row mb-1">
 			  	<div class="col">
-			  		<span id="btn_send" class="btn btn-secondary mt-3">Categorias <i class="bi bi-plus"></i></span>
+			  		<span id="btn_send" class="btn btn-secondary mt-3">Categorias<i class="bi bi-plus"></i></span>
 
 						<div id="clateg_list" class="clateg_list card mt-2" style="display: none">
 							<span class="btn btn-outline mt-2" id="btn_close_class_list"><i class="bi bi-x-lg"></i></span>
@@ -127,147 +134,201 @@
 			  	</div>
 			  </div>
 
-			  <div class="mb-1 row">
-			    <label for="taxa_fixa" class="col-form-label">Taxa fixa</label>
-			    <div class="input-group">
-			      <input type="text" class="form-control" id="taxa_fixa">
-			    	<span class="input-group-text" id="basic-addon1">%</span>
-			    </div>
+			  <div class="row mb-1">
+			  	<div class="col col-4">
+				    <label for="limite_frete" class="col-form-label">Limite frete</label>
+				    <div class="input-group">
+				    	<span class="input-group-text" id="basic-addon1">R$</span>
+				      <input type="text" class="form-control" id="limite_frete" value="79,00">
+				    </div>
+				  </div>
+			  	<div class="col col-4">
+				    <label for="taxa_fixa" class="col-form-label">Taxa fixa</label>
+				    <div class="input-group">
+				    	<span class="input-group-text" id="basic-addon1">R$</span>
+				      <input type="text" class="form-control" id="taxa_fixa" value="5,00">
+				    </div>
+				  </div>
+					<div class="col col-4">
+				    <label for="min_valor" class="col-form-label">Preço mínimo</label>
+				    <div class="input-group">
+				    	<span class="input-group-text" id="basic-addon1">R$</span>
+				      <input type="number" class="form-control" id="min_valor" readonly>
+				    </div>
+				  </div>
 			  </div>
 
-			  <div class="mb-1 row">
-			    <label for="frete_fixo" class="col-form-label">Frete padrão</label>
-			    <div class="input-group">
-			    	<span class="input-group-text" id="basic-addon1">R$</span>
-			      <input type="text" class="form-control" id="frete_fixo">
-			    </div>
-			  </div>
+			  
 
-			  <div class="mb-1 row">
-			    <label for="min_valor" class="col-form-label">Preço mínimo</label>
-			    <div class="input-group">
-			    	<span class="input-group-text" id="basic-addon1">R$</span>
-			      <input type="text" class="form-control" id="min_valor">
-			    </div>
-			  </div>
-
-			  <div class="mb-1 row">
-			    <label for="valor_base_frete" class="col-form-label">Base frete grátis</label>
-			    <div class="input-group">
-			    	<span class="input-group-text" id="basic-addon1">R$</span>
-			      <input type="text" class="form-control" id="valor_base_frete">
-			    </div>
-			  </div>
 			</div>
 
+			{{!-- frete --}}
+			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
+
+				<label for="config_reput_list" class="mb-1 col-form-label">Reputação</label>
+				<select id="config_reput_list" class="form-select" aria-label="Default select example">
+				  <option selected>Selecionar reputação</option>
+				  <option value="1">Lojas oficiais, MercadoLíderes e com reputação verde</option>
+				  <option value="2">Reputação amarela e sem reputação </option>
+				  <option value="3">Reputação laranja ou vermelha</option>
+				</select>
+
+				<label for="config_regiao" class="mb-1 col-form-label">Minha região</label>
+				<select id="config_regiao" class="form-select" aria-label="Default select example">
+				  <option selected>Selecionar região</option>
+				  <option value="2">Sul/Sudeste</option>
+				  <option value="3">Outras</option>
+				</select>
+
+				<div class="row mb-1">
+					<div class="col col-6">
+				    <label for="config_peso" class="col-form-label">Peso aproximado</label>
+				    <div class="input-group">
+				      <input type="number" class="form-control" id="config_peso" min="0.5" max="50" step="0.5" value="0.5">
+				    	<span class="input-group-text" id="basic-addon1">Kg</span>
+				    </div>
+				  </div>
+					<div class="col col-6">
+				    <label for="frete_fixo" class="col-form-label">Frete padrão</label>
+				    <div class="input-group">
+				    	<span class="input-group-text" id="basic-addon1">R$</span>
+				      <input type="text" class="form-control" id="frete_fixo" value="32,90">
+				    </div>
+				  </div>
+				</div>
+			</div>
 		</div>
+
 
 
 {{!-- RESPOSTA --}}
 
-		<div class="col col-4 px-3">
+		<div id="resposta_container" class="col col-4 px-3">
 			<h3>Resposta</h3>
-			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow">
+			<div id="no_frete_group" class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
 				<div class="row mb-1">
 					<h4 class="col-form-label">Clássico</h4>
-					<div class="col col-6">
-					 	<label for="resp_class_valor" class="col-form-label">Valor:</label>
+					<div class="col col-5">
+					 	<label for="resp_class_valor" class="col-form-label">Valor UN</label>
 				    <div class="input-group">
 				    	<span class="input-group-text" id="basic-addon1">R$</span>
 				      <input type="text" readonly class="form-control" id="resp_class_valor">
 				    </div>
 					</div>
 
-					<div class="col col-6">
-					 	<label for="resp_class_lucro" class="col-form-label">Lucro:</label>
+					<div class="col col-5">
+					 	<label for="resp_class_lucro" class="col-form-label">Lucro UN</label>
 				    <div class="input-group">
 				    	<span class="input-group-text" id="basic-addon1">R$</span>
 				      <input type="text" readonly class="form-control" id="resp_class_lucro">
 				    </div>
 					</div>
+
+					<div class="col col-2">
+					 	<label for="resp_class_qtd" class="col-form-label">Qtd.</label>
+				    <div class="input-group">
+				      <input type="text"  class="form-control qtd_camp" id="resp_class_qtd">
+				    </div>
+					 </div>
 				</div>
 				<hr>
 				<div class="row mb-1">
 					 <h4 class="col-form-label">Premium</h4>
-					 <div class="col col-6">
-					 	<label for="resp_prem_valor" class="col-form-label">Valor:</label>
+					 <div class="col col-5">
+					 	<label for="resp_prem_valor" class="col-form-label">Valor UN</label>
 				    <div class="input-group">
 				    	<span class="input-group-text" id="basic-addon1">R$</span>
 				      <input type="text" readonly class="form-control" id="resp_prem_valor">
 				    </div>
 					 </div>
 
-					 <div class="col col-6">
-					 	<label for="resp_prem_lucro" class="col-form-label">Lucro:</label>
+					 <div class="col col-5">
+					 	<label for="resp_prem_lucro" class="col-form-label">Lucro UN</label>
 				    <div class="input-group">
 				    	<span class="input-group-text" id="basic-addon1">R$</span>
 				      <input type="text" readonly class="form-control" id="resp_prem_lucro">
 				    </div>
 					 </div>
+
+					 <div class="col col-2">
+					 	<label for="resp_prem_qtd" class="col-form-label">Qtd.</label>
+				    <div class="input-group">
+				      <input type="text"  class="form-control qtd_camp" id="resp_prem_qtd">
+				    </div>
+					 </div>
 				</div>
-			</div>
-			
-			
+			</div>			
 
 			{{!-- frete gratis --}}
-			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow">
+			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
 				<div class="row mb-1">
 					 <h4 class="col-form-label">Clássico <i>*FRETE GRÁTIS</i></h4>
-					 <div class="col col-6">
-					 	<label for="resp_class_valor_frete" class="col-form-label">Valor:</label>
+					 <div class="col col-5">
+					 	<label for="resp_class_valor_frete" class="col-form-label">Valor UN</label>
 				    <div class="input-group">
 				    	<span class="input-group-text" id="basic-addon1">R$</span>
 				      <input type="text" readonly class="form-control" id="resp_class_valor_frete">
 				    </div>
 					 </div>
 
-					 <div class="col col-6">
-					 	<label for="resp_class_lucro_frete" class="col-form-label">Lucro:</label>
+					 <div class="col col-5">
+					 	<label for="resp_class_lucro_frete" class="col-form-label">Lucro UN</label>
 				    <div class="input-group">
 				    	<span class="input-group-text" id="basic-addon1">R$</span>
 				      <input type="text" readonly class="form-control" id="resp_class_lucro_frete">
+				    </div>
+					 </div>
+
+					 <div class="col col-2">
+					 	<label for="resp_class_qtd_frete" class="col-form-label">Qtd.</label>
+				    <div class="input-group">
+				      <input type="text"  class="form-control qtd_camp" id="resp_class_qtd_frete">
 				    </div>
 					 </div>
 				</div>
 				<hr>
 				<div class="row mb-1">
 					 <h4 class="col-form-label">Premium <i>*FRETE GRÁTIS</i></h4>
-					 <div class="col col-6">
-					 	<label for="resp_prem_valor_frete" class="col-form-label">Valor:</label>
+					 <div class="col col-5">
+					 	<label for="resp_prem_valor_frete" class="col-form-label">Valor UN</label>
 				    <div class="input-group">
 				    	<span class="input-group-text" id="basic-addon1">R$</span>
 				      <input type="text" readonly class="form-control" id="resp_prem_valor_frete">
 				    </div>
 					 </div>
 
-					 <div class="col col-6">
-					 	<label for="resp_prem_lucro_frete" class="col-form-label">Lucro:</label>
+					 <div class="col col-5">
+					 	<label for="resp_prem_lucro_frete" class="col-form-label">Lucro UN</label>
 				    <div class="input-group">
 				    	<span class="input-group-text" id="basic-addon1">R$</span>
 				      <input type="text" readonly class="form-control" id="resp_prem_lucro_frete">
 				    </div>
 					 </div>
+
+					  <div class="col col-2">
+					 	<label for="resp_prem_qtd_frete" class="col-form-label">Qtd.</label>
+				    <div class="input-group">
+				      <input type="text"  class="form-control qtd_camp" id="resp_prem_qtd_frete">
+				    </div>
+					 </div>
 				</div>
 			</div>
 
-
-
-
 			{{!-- total --}}
-			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow">
+			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
 				<div class="row mb-1">
 					<div class="col col-6">
-						<label for="resp_cash" class="col-form-label">CASH:</label>
+						<label for="resp_cash" class="col-form-label">CASH</label>
 				    <div class="input-group">
 				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_cash">
+				      <input type="text" readonly class="form-control" id="resp_cash" placeholder="Informe a qtd.">
 				    </div>
 					</div>
 					<div class="col col-6">
-						<label for="resp_lucro_total" class="col-form-label">Lucro total:</label>
+						<label for="resp_lucro_total" class="col-form-label">Lucro total</label>
 				    <div class="input-group">
 				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_lucro_total">
+				      <input type="text" readonly class="form-control" id="resp_lucro_total" placeholder="Informe a qtd.">
 				    </div>
 					</div>
 				</div>
@@ -276,15 +337,14 @@
 			<div class="row mb-1">
 			 	
 			</div>
-
 		</div>
 
 	
 		<div class="row">
 			<div class="col">
-				<span class="btn btn-success">Calcular</span>
-				<span class="btn btn-danger">Limpar</span>
-				<input type="submit" name="" value="Salvar" class="btn btn-primary">
+				<span class="btn btn-success" id="btn_calc">Calcular</span>
+				<span class="btn btn-danger" id="btn_limpar">Limpar</span>
+				<input type="submit" name="" value="Salvar" class="btn btn-primary" id="btn_salvar">
 			</div>
 		</div>
 		
@@ -296,3 +356,5 @@
 
 {{!-- LISTA DE CATEGORIAS --}}
 <script src="./js/precif_list_categ.js"></script>
+{{!-- LÓGICA DO FORMULÁRIO --}}
+<script src="./js/frecif_logical_form.js"></script>
