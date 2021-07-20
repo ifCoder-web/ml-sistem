@@ -352,9 +352,37 @@
 </form>
 
 
+{{!-- ANALISE DE CONCORRENCIA --}}
+
+<h2>Análise de anúncios</h2>
+
+<div class="concorrencia" style="margin-bottom: 300px">
+	<form action="#">
+		<div class="row mb-4">
+			<div class="col col-4">
+			    <label for="id_item_concor" class="col-form-label">Pesquise pelo item</label>
+			    <div class="input-group">
+				    <input type="text" class="form-control custo_soma" id="id_item_concor" placeholder="ID do item">
+				    <span class="btn btn-primary" id="enviarConcor">Analisar</span>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div id="content_concor">
+		{{!-- Item para analise --}}
+	</div>
+	<button id="clean_concor" class="btn btn-outline-primary">Limpar</button>
+
+
+</div>
+
+
 
 
 {{!-- LISTA DE CATEGORIAS --}}
 <script src="./js/precif_list_categ.js"></script>
 {{!-- LÓGICA DO FORMULÁRIO --}}
 <script src="./js/frecif_logical_form.js"></script>
+{{!-- ANALISE DE CONCORRENCIA --}}
+<script src="./js/concorrencia.js"></script>

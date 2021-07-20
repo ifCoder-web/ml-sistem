@@ -18,7 +18,8 @@
 		if(custo_array.length > 0){
 			custo_array.forEach((currentValue, index, arr) => {
 				if(currentValue.trim() != ""){
-					if(Number(currentValue.replace(/\./g,'').replace(',','.').trim())){ // Validação
+					var testValid = Number(currentValue.replace(/\./g,'').replace(',','.').trim()) // Teste de validação
+					if(testValid || testValid === 0){ // Validação
 						custo_array_total = custo_array_total + Number(currentValue.replace(/\./g,'').replace(',','.'))
 					}else{
 						erros.push("Informe somente valores válidos!")
