@@ -33,7 +33,7 @@ router.get("/cadastro", (req, res) => {
 })
 
 router.post("/save", urlencodedParser, (req, res) => {
-	const URL = "/api/item/"+req.body.id_item
+	const URL = "https://ml-sistem.herokuapp.com/api/item/"+req.body.id_item
 
 	fetch(URL)
 		.then((res) => res.json())
