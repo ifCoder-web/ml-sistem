@@ -29,30 +29,45 @@ function pesquisa_item(id){
 						var warranty = data.body.warranty
 						var health = data.body.health
 						var tags = data.body.tags
+						var listing_type_id = data.body.listing_type_id
+						var shipping = data.body.shipping.free_shipping
 
 						// Formatando data
 						var start_time_bruto = new Date(start_time)
-						var start_dia = start_time_bruto.getDate()
-						var start_mes = start_time_bruto.getMonth()
-						var start_ano = start_time_bruto.getFullYear()
-						var start_time_format = `${start_dia}/${start_mes}/${start_ano}`
+						var start_time_format = start_time_bruto.toLocaleDateString('pt-BR')
+
+						// Frete
+						var shipping_format = "Frete pago"
+						if(shipping == true){
+							shipping_format = "Frete grátis"
+						}
+
+						// Tipo de anúncio
+						var tipo_anuncio = "Clássico"
+						if(listing_type_id == "gold_special" || listing_type_id == "gold_pro"){
+							tipo_anuncio = "Premium"
+						}
 
 						// Criando e inserindo CARD
 						var card_insert = `
 							<div class="card mb-2">
 								<div class="card-body row">
 									<div class="imgConcor col col-1">
-										<img src="${thumbnail}" style="width: 50px">
+										<img src="${thumbnail}" style="width: 80px">
 									</div>
 									<div class="linkConcor col col-4">
 										<a href="${permalink}" target="blank">${title}</a>
 									</div>
-									<div class="col col-7 row">
+									<div class="col col-6 row">
 										<div class="dataConcor col">Início: ${start_time_format}</div>
-										<div class="price col">R$${price}</div>
-										<div class="health col">${health}</div>
+										<div class="price col text-success">R$${price}</div>
 										<div class="garantia col">${warranty}</div>
+										<div class="tipo col">
+											<div>${tipo_anuncio}</div>
+											<div>${shipping_format}</div>
+										</div>
 									</div>
+									<div class="health col col-1">${health}</div>
 								</div>
 							</div>
 						`

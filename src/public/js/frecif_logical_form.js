@@ -137,6 +137,7 @@
 		let limite_frete = document.querySelector("#limite_frete")
 		let min_valor = document.querySelector("#min_valor")
 		let frete_fixo = document.querySelector("#frete_fixo")
+		let condition = document.querySelector("#condition")
 		// Resposta
 		let resp_class_valor = document.querySelector("#resp_class_valor")
 		let resp_class_lucro = document.querySelector("#resp_class_lucro")
@@ -150,6 +151,7 @@
 		let resp_lucro_total = document.querySelector("#resp_lucro_total")
 		// No frete group
 		let no_frete_group = document.querySelector("#no_frete_group")
+
 
 		// Variaveis
 		let result_classic_no_frete, result_premium_no_frete, result_classic_frete, result_premium_frete;
@@ -181,13 +183,43 @@
 
 			// Clássico
 			result_classic_no_frete = result_geral(taxa_fixa.value, "0", limite_frete.value, custo_unitario, custo_lucro_pretend.value, classic.value)
-			resp_class_valor.value = result_classic_no_frete[0].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
-			resp_class_lucro.value = result_classic_no_frete[1].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
-
+			if(condition.value == "novo"){
+				if(result_classic_no_frete[2] != true){
+					resp_class_valor.value = result_classic_no_frete[0].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+					resp_class_lucro.value = result_classic_no_frete[1].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+				}else{
+					resp_class_valor.value = "--"
+					resp_class_lucro.value = "--"
+				}
+			}else{
+				if(result_classic_no_frete[2] == true){
+					resp_class_valor.value = (result_classic_no_frete[0] - 5).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+					resp_class_lucro.value = result_classic_no_frete[1].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+				}else{
+					resp_class_valor.value = result_classic_no_frete[0].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+					resp_class_lucro.value = result_classic_no_frete[1].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+				}
+			}
+			
 			// Premium
 			result_premium_no_frete = result_geral(taxa_fixa.value, "0", limite_frete.value, custo_unitario, custo_lucro_pretend.value, premium.value)
-			resp_prem_valor.value = result_premium_no_frete[0].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
-			resp_prem_lucro.value = result_premium_no_frete[1].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+			if(condition.value == "novo"){
+				if(result_premium_no_frete[2] != true){
+					resp_prem_valor.value = result_premium_no_frete[0].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+					resp_prem_lucro.value = result_premium_no_frete[1].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+				}else{
+					resp_prem_valor.value = "--"
+					resp_prem_lucro.value = "--"
+				}
+			}else{
+				if(result_premium_no_frete[2] == true){
+					resp_prem_valor.value = (result_premium_no_frete[0] - 5).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+					resp_prem_lucro.value = result_premium_no_frete[1].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+				}else{
+					resp_prem_valor.value = result_premium_no_frete[0].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+					resp_prem_lucro.value = result_premium_no_frete[1].toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+				}
+			}
 
 			// Clássico frete grátis
 			result_classic_frete = result_geral(taxa_fixa.value, frete_fixo.value, limite_frete.value, custo_unitario, custo_lucro_pretend.value, classic.value)

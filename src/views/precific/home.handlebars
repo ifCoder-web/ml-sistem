@@ -92,6 +92,18 @@
 		<div class="col col-4 px-3">
 			<h3>Config.</h3>
 
+			{{!-- condição --}}
+
+			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
+				{{!-- <h4 class="col-form-label">Condição</h4> --}}
+				<label for="condition" class="mb-1 col-form-label">Condição do produto</label>
+				<select id="condition" class="form-select" aria-label="Default select example">
+				  <option selected value="novo">Novo</option>
+				  <option value="usado">Usado</option>
+				  <option value="recondicionado">Recondicionado</option>
+				</select>
+			</div>
+
 			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
 
 				<div class="row mb-1">
@@ -362,7 +374,7 @@
 			<div class="col col-4">
 			    <label for="id_item_concor" class="col-form-label">Pesquise pelo item</label>
 			    <div class="input-group">
-				    <input type="text" class="form-control custo_soma" id="id_item_concor" placeholder="ID do item">
+				    <input type="text" class="form-control custo_soma" id="id_item_concor" placeholder="ID do anúncio">
 				    <span class="btn btn-primary" id="enviarConcor">Analisar</span>
 				</div>
 			</div>
