@@ -161,12 +161,4 @@ router.get('/frete', async (req, res) => {
 
 })
 
-
-
-
-
-
-
-
-
 module.exports = router

@@ -11,7 +11,7 @@ const banco = async () => {
 			useUnifiedTopology: true
 		}
 	).then(() => {
-		console.log("Banco de dados conectado! "+db.mongoURI)
+		console.log("Banco de dados conectado! ")
 	}).catch((error) => {
 		console.error("Um erro ao se conectar com o banco de dados: "+error)
 	})

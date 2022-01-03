@@ -24,8 +24,6 @@ const app = express()
 	// Body-parser
 		app.use(bodyParser.json())
 		var urlencodedParser = bodyParser.urlencoded({ extended: false })
-	// PUBLIC
-		app.use(express.static(path.join(__dirname,"/public")))
 
 // ROTAS //
 
