@@ -111,7 +111,7 @@ router.get("/update-itens", async (req, res) => {
 				let list_vendas = bancoAtu.qtd_vendas // Array de qtd de vendas registrados no item
 			// Item ID/URI
 				let ml_id = bancoAtu.id_item.replace('MLB', '')
-				const URI = "http://localhost:8081/api/item/"+ml_id
+				const URI = "https://ml-sistem.herokuapp.com/api/item/"+ml_id
 
 
 			// CONSULTANDO API PROPRIA	
