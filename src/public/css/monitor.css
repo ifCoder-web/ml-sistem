@@ -1,0 +1,10 @@
+.descript_prod {
+    font-size: 0.8em;
+}
+
+.price_down{
+    color: red;
+}
+.price_up{
+    color: green;
+}

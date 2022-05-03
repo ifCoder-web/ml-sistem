@@ -1,30 +1,38 @@
-<style type="text/css">
-	.descript_prod {
-		font-size: 0.8em;
-	}
-
-	.price_down{
-		color: red;
-	}
-	.price_up{
-		color: green;
-	}
-</style>
+{{!-- MONITOR --}}
 
 <div class="row">
 	<div class="col-12">
-		<h1 class="text-center text-muted my-4">Monitoramento</h1>
+		<h1 class="text-center text-muted my-4">Monitoramento de anúncios do MercadoLivre</h1>
+		<h2 class="text-center text-muted fs-5">Monitore os anúncios dos seus concorrentes e saiba todas as alterações de preço e quantas vendas ele faz por dia, semana e mes.</h2>
+		<p class="text-center text-muted ">
+			Analise sua concorrencia e monte sua estratégia para sair na frente!<br>
+			Saiba se aquele produto que você está pençando em vender está em alta ou em queda no MercadoLivre e invista no produto certo!
+		</p>
+	</div>
+</div>
+<hr>
+
+<div class="row my-4">
+	<h3 class="text-center text-muted fs-4 mb-3">Adicionar produto</h3>
+	<div class="col-12 d-flex justify-content-center">
+		<form action="/monitor/save" method="POST">
+			
+			<div class="d-flex">
+				<input type="text" name="id_item" id="id_item" class="form-control" style="width: 300px;" placeholder="ID do produto Ex.: #1897733255">
+				<button type="submit" class="btn btn-primary mx-1">Adicionar +</button>
+			</div>			
+		</form> 
+
+		{{!-- <a href="/monitor/cadastro"><button class="btn btn-primary">Novo +</button></a> --}}
+		
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-12">
-		<h2>Anúncios cadastrados</h2>
-		<hr>
-	</div>
+<div class="d-flex justify-content-end" style="margin-top: 40px;">
+	<a href="/monitor/update-itens"><button class="btn btn-outline-primary ms-3">Atualizar informações</button></a>
 </div>
 
-<div class="row">
+<div class="row" style="margin-top: 20px; margin-bottom: 200px;">	
 	<div class="col-12">
 		{{#each item}}
 		<div class="card mb-2">
@@ -78,7 +86,7 @@
 		  		<div class="col-2 d-flex justify-content-end align-items-center">
 		  			<span class="mx-1"> {{status}} </span>
 		  			<a href="#" class="mx-1">Ver produto</a>
-		  			<a href="/monitor/delete/{{_id}}"><button class="btn  mx-2"><i class="bi bi-x-lg"></i></button></a>
+		  			{{!-- <a href="/monitor/delete/{{_id}}"><button class="btn  mx-2"><i class="bi bi-x-lg"></i></button></a> --}}
 		  		</div>
 		  	</div>		    
 		  </div>
@@ -88,9 +96,5 @@
 	</div>
 </div>
 
-<div class="row my-2">
-	<div class="col-12">
-		<a href="/monitor/update-itens"><button class="btn btn-success">Atualizar</button></a>
-		<a href="/monitor/cadastro"><button class="btn btn-primary">Novo</button></a>
-	</div>
-</div>
+{{!-- css --}}
+<link rel="stylesheet" href="./css/monitor.css">

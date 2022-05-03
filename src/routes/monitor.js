@@ -17,11 +17,13 @@ const app = express()
 
 router.get("/", (req, res) => {
 	// BUSCA NO DB
-	Anuncio.find().then((data) => {		
+	Anuncio.find().sort({createdAt: "desc"})
+	.then((data) => {		
 		res.render("./monitor/dash_monitor",{
 			item: data.map(data => data.toJSON()),
 		})
-	}).catch((error) => {
+	})
+	.catch((error) => {
 		console.log(error)
 		res.send("Houve um erro ao consultar dados")
 	})
@@ -33,62 +35,66 @@ router.get("/cadastro", (req, res) => {
 })
 
 router.post("/save", urlencodedParser, (req, res) => {
-	const URL = "https://ml-sistem.herokuapp.com/api/item/"+req.body.id_item
-
-	fetch(URL)
-		.then((res) => res.json())
-		.then((dado) => {
-			const data = dado[0]
-		
-			Anuncio.findOne({ id_item: "MLB"+req.body.id_item }).then(async (dat) => {
-				if(dat){
-					console.log("Item já cadastrado!")
-					res.redirect("/monitor")
-				}else{
-					const item = new Anuncio({
-						id_item: data.api.id_item,
-						status: data.api.status,
-						title: data.api.title,
-						price: [{ 
-							iten_price: data.api.price[0].iten_price,
-						 }],
-						ant_price: data.api.price[0].iten_price,
-						atu_price: data.api.price[0].iten_price,
-						base_price: data.api.base_price,
-						currency_id: data.api.currency_id,
-						start_time: data.api.start_time,
-						permalink: data.api.permalink,
-						thumbnail: data.api.thumbnail,
-						condition: data.scrap.condition,
-						qtd_vendas:[{
-							nvendas: data.scrap.qtd_vendas[0].nvendas
-						}],
-						qtd_base_vendas: data.scrap.qtd_vendas[0].nvendas,
-						t_vendas: data.scrap.qtd_vendas[0].nvendas
-					})
-
-					await item.save((err, dados) => {
-						if(err){
+	const item = Number(req.body.id_item.trim().replace("#", ""))
+	if(item){
+		if(item != null && item != undefined && item != ""){
+			const URL = "https://ml-sistem.herokuapp.com/api/item/"+item
+			fetch(URL)
+				.then((res) => {
+					return res.json()
+				})
+				.then((dado) => {
+					console.log(dado)
+					const data = dado[0]			
+					Anuncio.findOne({ id_item: "MLB"+item }).then(async (dat) => {
+						if(dat){
+							console.log("Item já cadastrado!")
 							res.redirect("/monitor")
-							return console.log("falha ao salvar o anuncio "+ err)
-						}
-
-						console.log("Anuncio salvo com sucesso!")
-						res.redirect("/monitor")
-
+						}else{
+							const item = new Anuncio({
+								id_item: data.api.id_item,
+								status: data.api.status,
+								title: data.api.title,
+								price: [{ 
+									iten_price: data.api.price[0].iten_price,
+								}],
+								ant_price: data.api.price[0].iten_price,
+								atu_price: data.api.price[0].iten_price,
+								base_price: data.api.base_price,
+								currency_id: data.api.currency_id,
+								start_time: data.api.start_time,
+								permalink: data.api.permalink,
+								thumbnail: data.api.thumbnail,
+								condition: data.scrap.condition,
+								qtd_vendas:[{
+									nvendas: data.scrap.qtd_vendas[0].nvendas
+								}],
+								qtd_base_vendas: data.scrap.qtd_vendas[0].nvendas,
+								t_vendas: data.scrap.qtd_vendas[0].nvendas
+							})
+							await item.save((err, dados) => {
+								if(err){
+									res.redirect("/monitor")
+									return console.log("falha ao salvar o anuncio "+ err)
+								}
+								console.log("Anuncio salvo com sucesso!")
+								res.redirect("/monitor")
+							})
+						}						
+					}).catch(async (error) => {
+						console.log("Deu ruim: "+error)
+						res.redirect("/")
 					})
-				}
-				
-			}).catch(async (error) => {
-				console.log("Deu ruim: "+error)
-				res.redirect("/monitor/cadastro")
-			})
-
-		})
-		.catch((error) => {
-			console.log("Deu um erro: "+error)
-			res.redirect("/monitor/cadastro")
-		})
+				})
+				.catch((error) => {
+					console.log("Erro ao consultar produto: "+error)
+					res.redirect("/monitor")
+				})
+		}
+	}else{
+		res.redirect("/monitor")
+	}
+	
 })
 
 

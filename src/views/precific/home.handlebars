@@ -1,380 +1,408 @@
 {{!-- CSS --}}
+<link rel="stylesheet" href="css/precific.css">
 
-<style type="text/css">
-	.clateg_list{
-		z-index: 100;
-		position: absolute;
-		background: #fff;
-	}
-	.clateg_list #itens{
-		width: 350px;
-		max-height: 500px;
-		overflow-y: auto;
-	}
-</style>
+<h1 class="my-4 text-muted text-center">Precificação de produtos para MercadoLivre</h1>
+<p class="text-center text-muted my-4">
+	Descubra qual o preço certo para anunciar produtos no MercadoLivre<br>
+	Adicione todos os custos e calcule a porcentagem de lúcro para cada produto que deseja vender, e assim evitar prejuizos ao iniciar um negocio online no MercadoLivre.<br>
+	Esta ferramenta vai te auxiliar sempre que quiser vender produtos novos, usados ou recondicionados.<br>
+	Aproveite e faça uma analise de produtos da sua concorrência, com a nossa <a href="#analise">ferramenta de análise.</a> 
+</p>
 
-
-
-
-<h1 class="my-4">Precificação MercadoLivre</h1>
-
-<form class="form-control mb-4 bg-light" action="#">
+<form class="mb-4" style="margin-top: 40px;" action="#">
 {{!-- CUSTOS --}}
-	<div class="row">
-		<div id="custo_container" class="col col-4 px-3">
-			<h3>Custos</h3>
-			<div id="custos" class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
-
-				<div class="row mb-1">
-					<div class="col col-6">
-				    <label for="custo_prod_value" class="col-form-label">Preço bruto do produto</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" class="form-control custo_soma" id="custo_prod_value">
-				    </div>
-				  </div>
-				  <div class="col col-6">
-				    <label for="custo_emba_value" class="col-form-label">Embalagem</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" class="form-control custo_soma" id="custo_emba_value">
-				    </div>
-				  </div>
+	
+		<div id="custo_container" class="row px-3">
+			
+			<div id="custos" class="ml_card px-2 py-2 bg-white shadow rounded">
+				<h3 class="mb-4 text-muted text-center"><em>Custos</em></h3>
+				<hr>
+				<div class="row">
+					<div class="col col-10">
+						<h3 class="fs-4 mb-4">Quanto pagou pelo produto? (Unitário) *</h3>
+						{{!-- <label for="custo_prod_value" class="col-form-label">Valor do produto</label> --}}
+						<div class="input-group">
+							<span class="input-group-text" id="basic-addon1">R$</span>
+							<input type="text" class="form-control custo_soma" id="custo_prod_value" placeholder="Valor" value="123">
+						</div>
+					</div>
+					<div class="col col-2">
+						<h3 class="fs-5 mb-4">Qtd. *</h3>
+						<div class="col-12">
+							{{!-- <label for="custo_qtd_prod" class="col-form-label">Qtd. de produto</label> --}}
+							<div class="input-group">
+								<input type="number" class="form-control" id="custo_qtd_prod" min="1" max="50000" step="1" value="1">
+							</div>
+						</div>
+					</div>
+					
 				</div>
-				
-				<div class="row mb-1">
-					<div class="col col-6">
-				    <label for="custo_deslo_value" class="col-form-label">Deslocamento</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" class="form-control custo_soma" id="custo_deslo_value">
-				    </div>
-				  </div>
-				  <div class="col col-6">
-				    <label for="custo_outros_value" class="col-form-label">Outros</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" class="form-control custo_soma" id="custo_outros_value">
-				    </div>
-				  </div>
-				</div>  
 
-			</div>
-		  <div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
-			  <div class="mb-1 row">
-			    <div class="col-6">
-			    	<label for="custo_lucro_pretend" class="col-form-label">Lúcro desejado</label>
-				    <div class="input-group">
-				      <input type="number" class="form-control" id="custo_lucro_pretend"  min="1" max="50000" value="0">
-				    	<span class="input-group-text" id="basic-addon1">%</span>
-				    </div>
-			    </div>
-			    <div class="col-6">
-			    	<label for="custo_qtd_prod" class="col-form-label">Qtd. de produto</label>
-				    <div class="input-group">
-				      <input type="number" class="form-control" id="custo_qtd_prod" min="1" max="50000" step="1" value="1">
-				    </div>
-			    </div>
-			  </div>
-			  <hr>
-		   	<div class="mt-3 row">
-			    <label for="custo_invest_total" class="col-form-label">Investimento total</label>
-			    <div class="input-group">
-			    	<span class="input-group-text" id="basic-addon1">R$</span>
-			      <input type="text" readonly class="form-control" id="custo_invest_total" value="0,00">
-			    </div>
-			  </div>
+				<div class="row mt-3">
+					<h3 class="fs-5 mb-4">Outros custos</h3>
+					<div class="col col-4">
+						{{!-- <label for="custo_emba_value" class="col-form-label">Embalagem</label> --}}
+						<div class="input-group">
+							<span class="input-group-text" id="basic-addon1">R$</span>
+							<input type="text" class="form-control custo_soma" id="custo_emba_value" placeholder="Embalagem">
+						</div>
+					</div>
+				
+					<div class="col col-4">
+						{{!-- <label for="custo_deslo_value" class="col-form-label">Deslocamento</label> --}}
+						<div class="input-group">
+							<span class="input-group-text" id="basic-addon1">R$</span>
+							<input type="text" class="form-control custo_soma" id="custo_deslo_value" placeholder="Deslocamento">
+						</div>
+					</div>
+					<div class="col col-4">
+						{{!-- <label for="custo_outros_value" class="col-form-label">Outros</label> --}}
+						<div class="input-group">
+							<span class="input-group-text" id="basic-addon1">R$</span>
+							<input type="text" class="form-control custo_soma" id="custo_outros_value" placeholder="Outros">
+						</div>
+					</div>
+				</div>
+			
+				<div class="mt-3 row">
+					
+				</div>
+				<hr>
+
+				<div class="mt-3 row">
+					<div class="col">
+						<h3 class="fs-4 mb-4">Investimento unitário</h3>
+						{{!-- <label for="custo_invest_total" class="col-form-label">Investimento total</label> --}}
+						<div class="input-group">
+							<span class="input-group-text">R$</span>
+							<input type="text" readonly class="form-control" id="custo_invest_unit" value="0,00">
+						</div>
+					</div>
+					<div class="col">
+						<h3 class="fs-4 mb-4">Investimento total</h3>
+						{{!-- <label for="custo_invest_total" class="col-form-label">Investimento total</label> --}}
+						<div class="input-group">
+							<span class="input-group-text" id="basic-addon1">R$</span>
+							<input type="text" readonly class="form-control" id="custo_invest_total" value="0,00">
+						</div>
+					</div>
+					
+				</div>
 			</div>
 		</div>
 
 {{!-- CONFIGURAÇÃO --}}
 
-		<div class="col col-4 px-3">
-			<h3>Config.</h3>
+		<div class="row px-3">
+			
+			<div class="ml_card px-2 py-2 bg-white shadow rounded">
+				<div class="col-12">
+					<h3 class="fs-4 mb-4">Lúcro desejado (%) *</h3>
+			    	{{!-- <label for="custo_lucro_pretend" class="col-form-label">Lúcro desejado</label> --}}
+				    <div class="input-group">
+				      	<input type="number" class="form-control" id="custo_lucro_pretend"  min="1" max="50000" value="0">
+				    	<span class="input-group-text" id="basic-addon1">%</span>
+				    </div>
+			    </div>
+			</div>
 
 			{{!-- condição --}}
 
-			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
+			<div class="ml_card px-2 py-2 bg-white shadow rounded">
+				<h3 class="fs-4 mb-4">Condição do produto *</h3>
 				{{!-- <h4 class="col-form-label">Condição</h4> --}}
-				<label for="condition" class="mb-1 col-form-label">Condição do produto</label>
+				{{!-- <label for="condition" class="mb-1 col-form-label">Condição do produto</label> --}}
 				<select id="condition" class="form-select" aria-label="Default select example">
-				  <option selected value="novo">Novo</option>
-				  <option value="usado">Usado</option>
-				  <option value="recondicionado">Recondicionado</option>
+				  	<option selected value="novo">Novo</option>
+				  	<option value="usado">Usado</option>
+				  	<option value="recondicionado">Recondicionado</option>
 				</select>
 			</div>
 
-			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
+			<div class="ml_card px-2 py-2 bg-white shadow rounded">
 
-				<div class="row mb-1">
-					<h4 class="col-form-label">Taxa ML</h4>
-					<div class="col col-6">
-				    <label for="classic" class="col-form-label">Clássico</label>
-				    <div class="input-group">
-				      <input type="number" class="form-control" id="classic" min="0" max="20">
-				    	<span class="input-group-text" id="basic-addon1">%</span>
-				    </div>
-				  </div>
-				  <div class="col col-6">
-				    <label for="premium" class="col-form-label">Premium</label>
-				    <div class="input-group">
-				      <input type="number" class="form-control" id="premium" min="0" max="20">
-				    	<span class="input-group-text" id="basic-addon1">%</span>
-				    </div>
-				  </div>
-				</div>
-				
+				<h3 class="fs-4 mb-4">Selecione a categoria do produto *</h3>
 
-			  <div class="mb-1 mt-3 row">      
-		      <div class="input-group">
-		      	<div id="categ"></div>
-			    </div>
-			  </div>
+				<div class="mb-1 mt-3 row">      
+		      		<div class="col col-12 input-group">
+		      			<div id="categ"></div>
+			    	</div>
+			  	</div>
 
-		    <input type="text" class="form-control" id="categ_list" hidden placeholder="Categorias">
+		    	<input type="text" class="form-control" id="categ_list" hidden placeholder="Categorias">
 
-			  <div class="row mb-1">
-			  	<div class="col">
-			  		<span id="btn_send" class="btn btn-secondary mt-3">Categorias<i class="bi bi-plus"></i></span>
-
+			  	<div class="row mb-4">
+				  	<div class="col">
+				  		<span id="btn_send" class="btn btn-secondary mt-3">Categorias<i class="bi bi-plus"></i></span>
 						<div id="clateg_list" class="clateg_list card mt-2" style="display: none">
 							<span class="btn btn-outline mt-2" id="btn_close_class_list"><i class="bi bi-x-lg"></i></span>
 							<div id="itens" class="card-body">
 								{{!-- conteudo dinâmico --}}
 							</div>
 						</div>
+				  	</div>
 			  	</div>
-			  </div>
 
-			  <div class="row mb-1">
-			  	<div class="col col-4">
-				    <label for="limite_frete" class="col-form-label">Limite frete</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" class="form-control" id="limite_frete" value="79,00">
-				    </div>
-				  </div>
-			  	<div class="col col-4">
-				    <label for="taxa_fixa" class="col-form-label">Taxa fixa</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" class="form-control" id="taxa_fixa" value="5,00">
-				    </div>
-				  </div>
+				<div class="row mb-1">
+					<h3 class="fs-4 mb-4">Taxas do Mercado Livre</h3>
+					<div class="col col-6">
+				    	<label for="classic" class="col-form-label">Clássico</label>
+					    <div class="input-group">
+					      	<input type="number" class="form-control" id="classic" min="0" max="20">
+					    	<span class="input-group-text" id="basic-addon1">%</span>
+					    </div>
+				  	</div>
+				  	<div class="col col-6">
+					    <label for="premium" class="col-form-label">Premium</label>
+					    <div class="input-group">
+					      	<input type="number" class="form-control" id="premium" min="0" max="20">
+					    	<span class="input-group-text" id="basic-addon1">%</span>
+					    </div>
+				  	</div>
+				</div>
+				
+
+			  	
+
+			  	<div class="row mb-1">
+				  	<div class="col col-4">
+					    <label for="limite_frete" class="col-form-label">Limite frete *</label>
+					    <div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" class="form-control" id="limite_frete" value="79,00">
+					    </div>
+					</div>
+			  		<div class="col col-4">
+					    <label for="taxa_fixa" class="col-form-label">Taxa fixa *</label>
+					    <div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" class="form-control" id="taxa_fixa" value="5,00">
+					    </div>
+				  	</div>
 					<div class="col col-4">
-				    <label for="min_valor" class="col-form-label">Preço mínimo</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="number" class="form-control" id="min_valor" readonly>
-				    </div>
-				  </div>
-			  </div>
-
-			  
+					    <label for="min_valor" class="col-form-label">Preço mínimo</label>
+					    <div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="number" class="form-control" id="min_valor" readonly>
+					    </div>
+				  	</div>
+			  	</div>
 
 			</div>
 
 			{{!-- frete --}}
-			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
+			<div class="ml_card px-2 py-2 bg-white shadow rounded">
 
-				<label for="config_reput_list" class="mb-1 col-form-label">Reputação</label>
-				<select id="config_reput_list" class="form-select" aria-label="Default select example">
-				  <option selected>Selecionar reputação</option>
-				  <option value="1">Lojas oficiais, MercadoLíderes e com reputação verde</option>
-				  <option value="2">Reputação amarela e sem reputação </option>
-				  <option value="3">Reputação laranja ou vermelha</option>
+				<h3 class="fs-5 mb-4">Sua reputação no Mercado Livre</h3>
+				{{!-- <label for="config_reput_list" class="mb-1 col-form-label">Reputação</label> --}}
+				<select id="config_reput_list" class="form-select mb-4" aria-label="Default select example">
+				  	<option selected>Selecionar reputação</option>
+				  	<option value="1">Lojas oficiais, MercadoLíderes e com reputação verde</option>
+				  	<option value="2">Reputação amarela e sem reputação </option>
+				  	<option value="3">Reputação laranja ou vermelha</option>
 				</select>
 
-				<label for="config_regiao" class="mb-1 col-form-label">Minha região</label>
-				<select id="config_regiao" class="form-select" aria-label="Default select example">
-				  <option selected>Selecionar região</option>
-				  <option value="2">Sul/Sudeste</option>
-				  <option value="3">Outras</option>
+				<h3 class="fs-5 mb-4">Sua região</h3>
+				{{!-- <label for="config_regiao" class="mb-1 col-form-label">Minha região</label> --}}
+				<select id="config_regiao" class="form-select mb-4" aria-label="Default select example">
+				  	<option selected>Selecionar região</option>
+				  	<option value="2">Sul/Sudeste</option>
+				  	<option value="3">Outras</option>
 				</select>
+
 
 				<div class="row mb-1">
 					<div class="col col-6">
-				    <label for="config_peso" class="col-form-label">Peso aproximado</label>
-				    <div class="input-group">
-				      <input type="number" class="form-control" id="config_peso" min="0.5" max="50" step="0.5" value="0.5">
-				    	<span class="input-group-text" id="basic-addon1">Kg</span>
-				    </div>
-				  </div>
+						<h3 class="fs-6 mb-4">Peso aproximado do produto</h3>
+					    {{!-- <label for="config_peso" class="col-form-label">Peso aproximado</label> --}}
+					    <div class="input-group">
+					      	<input type="number" class="form-control" id="config_peso" min="0.5" max="50" step="0.5" value="0.5">
+					    	<span class="input-group-text" id="basic-addon1">Kg</span>
+					    </div>
+				  	</div>
 					<div class="col col-6">
-				    <label for="frete_fixo" class="col-form-label">Frete padrão</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" class="form-control" id="frete_fixo" value="32,90">
-				    </div>
-				  </div>
+						<h3 class="fs-6 mb-4">Frete padrão *</h3>
+					    {{!-- <label for="frete_fixo" class="col-form-label">Frete padrão</label> --}}
+					    <div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" class="form-control" id="frete_fixo" value="32,90">
+					    </div>
+				  	</div>
 				</div>
 			</div>
+
+			{{!-- Calucular --}}
+			<div class="d-flex justify-content-center my-4">				
+				<span class="btn btn-success mx-auto" style="width: 800px" id="btn_calc">Calcular</span>				
+			</div>			
 		</div>
-
-
 
 {{!-- RESPOSTA --}}
 
-		<div id="resposta_container" class="col col-4 px-3">
-			<h3>Resposta</h3>
-			<div id="no_frete_group" class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
+		<div id="resposta_container" class="row px-3">
+			<h3 class="text-muted text-center my-4"><em>Resposta</em></h3>
+			<div id="no_frete_group" class="ml_card px-2 py-2 bg-white shadow rounded">
 				<div class="row mb-1">
+					<h3 class="fs-4 mb-4">Você deverá anunciar no Classico por:</h3>
 					<h4 class="col-form-label">Clássico</h4>
-					<div class="col col-5">
+					<div class="col col-6">
 					 	<label for="resp_class_valor" class="col-form-label">Valor UN</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_class_valor">
-				    </div>
+				    	<div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" readonly class="form-control" id="resp_class_valor">
+				    	</div>
 					</div>
-
-					<div class="col col-5">
+					<div class="col col-4">
 					 	<label for="resp_class_lucro" class="col-form-label">Lucro UN</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_class_lucro">
-				    </div>
+				    	<div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" readonly class="form-control" id="resp_class_lucro">
+				    	</div>
 					</div>
 
 					<div class="col col-2">
 					 	<label for="resp_class_qtd" class="col-form-label">Qtd.</label>
-				    <div class="input-group">
-				      <input type="text"  class="form-control qtd_camp" id="resp_class_qtd">
-				    </div>
-					 </div>
+					    	<div class="input-group">
+					      	<input type="number"  class="form-control qtd_camp" id="resp_class_qtd">
+				    	</div>
+					</div>
 				</div>
 				<hr>
 				<div class="row mb-1">
-					 <h4 class="col-form-label">Premium</h4>
-					 <div class="col col-5">
-					 	<label for="resp_prem_valor" class="col-form-label">Valor UN</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_prem_valor">
-				    </div>
-					 </div>
-
-					 <div class="col col-5">
-					 	<label for="resp_prem_lucro" class="col-form-label">Lucro UN</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_prem_lucro">
-				    </div>
-					 </div>
-
-					 <div class="col col-2">
-					 	<label for="resp_prem_qtd" class="col-form-label">Qtd.</label>
-				    <div class="input-group">
-				      <input type="text"  class="form-control qtd_camp" id="resp_prem_qtd">
-				    </div>
-					 </div>
+					<h4 class="col-form-label">Clássico <i>*FRETE GRÁTIS</i></h4>
+					<div class="col col-6">
+					 	<label for="resp_class_valor_frete" class="col-form-label">Valor UN</label>
+				    	<div class="input-group">
+				    		<span class="input-group-text" id="basic-addon1">R$</span>
+				      		<input type="text" readonly class="form-control" id="resp_class_valor_frete">
+				    	</div>
+					</div>
+					<div class="col col-4">
+					 	<label for="resp_class_lucro_frete" class="col-form-label">Lucro UN</label>
+				    	<div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" readonly class="form-control" id="resp_class_lucro_frete">
+				    	</div>
+					</div>
+					<div class="col col-2">
+					 	<label for="resp_class_qtd_frete" class="col-form-label">Qtd.</label>
+				    	<div class="input-group">
+				      		<input type="number"  class="form-control qtd_camp" id="resp_class_qtd_frete">
+				    	</div>
+					</div>
 				</div>
+
+
+				
 			</div>			
 
 			{{!-- frete gratis --}}
-			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
+			<div class="ml_card px-2 py-2 bg-white shadow rounded">
 				<div class="row mb-1">
-					 <h4 class="col-form-label">Clássico <i>*FRETE GRÁTIS</i></h4>
-					 <div class="col col-5">
-					 	<label for="resp_class_valor_frete" class="col-form-label">Valor UN</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_class_valor_frete">
-				    </div>
-					 </div>
+					<h3 class="fs-4 mb-4">Você deverá anunciar no Premium por:</h3>
+					<h4 class="col-form-label">Premium</h4>
+					<div class="col col-6">
+					 	<label for="resp_prem_valor" class="col-form-label">Valor UN</label>
+				    	<div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" readonly class="form-control" id="resp_prem_valor">
+				    	</div>
+					</div>
 
-					 <div class="col col-5">
-					 	<label for="resp_class_lucro_frete" class="col-form-label">Lucro UN</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_class_lucro_frete">
-				    </div>
-					 </div>
+					<div class="col col-4">
+					 	<label for="resp_prem_lucro" class="col-form-label">Lucro UN</label>
+				    	<div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" readonly class="form-control" id="resp_prem_lucro">
+				    	</div>
+					</div>
 
-					 <div class="col col-2">
-					 	<label for="resp_class_qtd_frete" class="col-form-label">Qtd.</label>
-				    <div class="input-group">
-				      <input type="text"  class="form-control qtd_camp" id="resp_class_qtd_frete">
-				    </div>
-					 </div>
+					<div class="col col-2">
+					 	<label for="resp_prem_qtd" class="col-form-label">Qtd.</label>
+				    	<div class="input-group">
+				      		<input type="number"  class="form-control qtd_camp" id="resp_prem_qtd">
+				    	</div>
+					</div>
 				</div>
 				<hr>
 				<div class="row mb-1">
-					 <h4 class="col-form-label">Premium <i>*FRETE GRÁTIS</i></h4>
-					 <div class="col col-5">
+					<h4 class="col-form-label">Premium <i>*FRETE GRÁTIS</i></h4>
+					<div class="col col-6">
 					 	<label for="resp_prem_valor_frete" class="col-form-label">Valor UN</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_prem_valor_frete">
-				    </div>
-					 </div>
+				    	<div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" readonly class="form-control" id="resp_prem_valor_frete">
+				    	</div>
+					</div>
 
-					 <div class="col col-5">
+					<div class="col col-4">
 					 	<label for="resp_prem_lucro_frete" class="col-form-label">Lucro UN</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_prem_lucro_frete">
-				    </div>
-					 </div>
+				    	<div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" readonly class="form-control" id="resp_prem_lucro_frete">
+				    	</div>
+					</div>
 
-					  <div class="col col-2">
+					 <div class="col col-2">
 					 	<label for="resp_prem_qtd_frete" class="col-form-label">Qtd.</label>
-				    <div class="input-group">
-				      <input type="text"  class="form-control qtd_camp" id="resp_prem_qtd_frete">
-				    </div>
-					 </div>
+				    	<div class="input-group">
+				      		<input type="number"  class="form-control qtd_camp" id="resp_prem_qtd_frete">
+				    	</div>
+					</div>
 				</div>
 			</div>
 
 			{{!-- total --}}
-			<div class="border border-1 px-2 py-2 mb-4 bg-white shadow rounded">
+			<div class="ml_card px-2 py-2 bg-white shadow rounded">
+				<h3 class="fs-4 mb-4">Total</h3>
+				<div class="alert alert-secondary" role="alert">
+				  	<i class="bi bi-exclamation-circle-fill"></i> Selecione a quantidade de produtos que pretende vender em cada tipo de anúncio para calcular o faturamento total.
+				</div>
 				<div class="row mb-1">
 					<div class="col col-6">
-						<label for="resp_cash" class="col-form-label">CASH</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_cash" placeholder="Informe a qtd.">
-				    </div>
+						<label for="resp_cash" class="col-form-label">Faturamento</label>
+				    	<div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" readonly class="form-control" id="resp_cash" placeholder="Informe a qtd.">
+				    	</div>
 					</div>
 					<div class="col col-6">
 						<label for="resp_lucro_total" class="col-form-label">Lucro total</label>
-				    <div class="input-group">
-				    	<span class="input-group-text" id="basic-addon1">R$</span>
-				      <input type="text" readonly class="form-control" id="resp_lucro_total" placeholder="Informe a qtd.">
-				    </div>
+				    	<div class="input-group">
+					    	<span class="input-group-text" id="basic-addon1">R$</span>
+					      	<input type="text" readonly class="form-control" id="resp_lucro_total" placeholder="Informe a qtd.">
+				    	</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="row mb-1">
-			 	
-			</div>
+			<div class="row mb-1"></div>
 		</div>
 
-	
-		<div class="row">
-			<div class="col">
-				<span class="btn btn-success" id="btn_calc">Calcular</span>
-				<span class="btn btn-danger" id="btn_limpar">Limpar</span>
-				<input type="submit" name="" value="Salvar" class="btn btn-primary" id="btn_salvar">
-			</div>
+		<div class="ml_card d-flex justify-content-end">		
+			<button type="reset" class="btn btn-danger mx-2" id="btn_limpar"><i class="bi bi-trash"></i> Limpar</button>
+			<button type="button" class="btn btn-primary" id="btn_salvar" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Top popover" disabled><i class="bi bi-file-earmark-pdf"></i> Gerar PDF</button>
 		</div>
-		
-	</div>
 </form>
+<hr>
 
 
 {{!-- ANALISE DE CONCORRENCIA --}}
 
-<h2>Análise de anúncios</h2>
+<h2 class="text-center text-muted" id="analise" style="margin-top: 40px;">Análise de anúncios MercadoLivre</h2>
+<p class="text-center text-muted my-4">
+	Entenda como seus <strong>concorrentes estão anunciando.</strong> <br>
+	Veja a data de publicação, tipo de anúncio, tipo de frete, pontuação e outros. <br>
+	Você ainda pode <strong>monitorar as vendas e preços</strong> dos anúncios de seu concorrente, para descobrir se o produto está vendendo bem, com a nossa <a href="/monitor">Ferramenta de Monitoramento.</a>
+</p>
 
-<div class="concorrencia" style="margin-bottom: 300px">
+<div class="concorrencia" style="margin-bottom: 300px; margin-top: 60px;">
 	<form action="#">
 		<div class="row mb-4">
 			<div class="col col-4">
-			    <label for="id_item_concor" class="col-form-label">Pesquise pelo item</label>
+			    <label for="id_item_concor" class="col-form-label">Insira o ID do anúncio</label>
 			    <div class="input-group">
-				    <input type="text" class="form-control custo_soma" id="id_item_concor" placeholder="ID do anúncio">
+				    <input type="text" class="form-control custo_soma" id="id_item_concor" placeholder="Ex: #1897733255">
 				    <span class="btn btn-primary" id="enviarConcor">Analisar</span>
 				</div>
 			</div>
@@ -384,7 +412,7 @@
 	<div id="content_concor">
 		{{!-- Item para analise --}}
 	</div>
-	<button id="clean_concor" class="btn btn-outline-primary">Limpar</button>
+	<button id="clean_concor" class="btn btn-outline-danger"><i class="bi bi-trash"></i> Limpar</button>
 
 
 </div>
@@ -398,3 +426,9 @@
 <script src="./js/frecif_logical_form.js"></script>
 {{!-- ANALISE DE CONCORRENCIA --}}
 <script src="./js/concorrencia.js"></script>
+{{!-- CLEAN --}}
+<script>
+	document.querySelector("#btn_limpar").addEventListener('click', () => {
+		document.querySelector("#categ").innerHTML = "";
+	});
+</script>

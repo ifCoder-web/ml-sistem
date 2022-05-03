@@ -8,7 +8,7 @@ let erros = []
 
 function pesquisa_item(id){
 	// Validação
-	var id_valid = Number(id.trim())
+	var id_valid = Number(id.replace("#", "").trim())
 
 	if(id_valid){
 		// Consulta ajax

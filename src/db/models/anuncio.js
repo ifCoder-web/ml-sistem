@@ -8,7 +8,7 @@ const anuncio_schema = new Schema({
 	"title": { type: String, require: true },
 	"price": [
 		{
-			"data": { type: Date, default: Date.now },
+			"data": { type: Date, default: new Date() },
 			"iten_price": { type: String }
 		}
 	],
@@ -24,7 +24,7 @@ const anuncio_schema = new Schema({
 	"condition": { type: String, require: true },
 	"qtd_vendas":[
 		{
-			"data": { type: Date, default: Date.now },
+			"data": { type: Date, default: new Date() },
 			"nvendas": { type: Number }
 		}
 	],
@@ -35,7 +35,8 @@ const anuncio_schema = new Schema({
 	"s_vendas": { type: Number, default: 0 },
 	"d_vendas": { type: Number, default: 0 },
 	"qtd_estoque": { type: String, require: true },
-	"last_update": { type: Date, default: Date.now }
+	"last_update": { type: Date, default: new Date() },
+	"createdAt": { type: Date, default: new Date() }
 })
 
 const Anuncio = mongoose.model('Anuncio', anuncio_schema)

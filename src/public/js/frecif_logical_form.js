@@ -4,6 +4,7 @@
 	function total_invest(){
 		let custo_qtd_prod = document.querySelector("#custo_qtd_prod")
 		let custo_invest_total = document.querySelector("#custo_invest_total")
+		let custo_invest_unit = document.querySelector("#custo_invest_unit")
 
 		let custo_soma = document.querySelectorAll("#custos .custo_soma")
 		let custo_array = []
@@ -34,8 +35,9 @@
 			custo_invest_total.value = 0;
 			erros = []
 		}else{
-			invest_total_soma = custo_array_total * custo_qtd_prod.value
+			invest_total_soma = custo_array_total * custo_qtd_prod.value;
 			custo_invest_total.value = invest_total_soma.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
+			custo_invest_unit.value = custo_array_total.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2})
 		}
 
 		return [custo_array_total, invest_total_soma]
