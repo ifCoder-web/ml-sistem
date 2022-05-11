@@ -1,10 +1,10 @@
 // Analise de concorrencia ML
 
-let id_item_concor = document.querySelector("#id_item_concor")
-let enviarConcor = document.querySelector("#enviarConcor")
-let content_concor = document.querySelector("#content_concor")
-let clean_concor = document.querySelector("#clean_concor")
-let erros = []
+let id_item_concor = document.querySelector("#id_item_concor");
+let enviarConcor = document.querySelector("#enviarConcor");
+let content_concor = document.querySelector("#content_concor");
+let clean_concor = document.querySelector("#clean_concor");
+let erros = [];
 
 function pesquisa_item(id){
 	// Validação
@@ -17,7 +17,7 @@ function pesquisa_item(id){
 			.then((response) => { // FAZ A CONSULTA NA API DO ML PARA OBTER AS INFORMAÇÕES
 				return response.json()
 			})
-			.then((response) => {			
+			.then((response) => {		
 				response.forEach((data) => {
 					if(data.code == 200){
 						// Guardando informações
@@ -51,7 +51,7 @@ function pesquisa_item(id){
 						// Criando e inserindo CARD
 						var card_insert = `
 							<div class="card mb-2">
-								<div class="card-body row">
+								<div class="card-body row d-flex align-items-center">
 									<div class="imgConcor col col-1">
 										<img src="${thumbnail}" style="width: 80px">
 									</div>
@@ -76,10 +76,13 @@ function pesquisa_item(id){
 						// Limpando campo de id
 						id_item_concor.value = ""
 
+						// Chamando btn de limpar
+						clearConcor(true)
+
 					}else{
 						erros.push("Item não encontrado! Code: "+ data.code)
 					}
-				})				
+				})			
 			});
 	}else{
 		erros.push("Informe um id válido!")
@@ -98,9 +101,12 @@ function pesquisa_item(id){
 enviarConcor.addEventListener("click", function(){ // Add item
 	if(id_item_concor.value.trim() != ""){
 		pesquisa_item(id_item_concor.value)
+		
 	}
 })
 
 clean_concor.addEventListener("click", function(){ // Limpa itens
-	content_concor.innerHTML = ""
+	content_concor.innerHTML = "";
+	// Retirando btn de limpar
+	clearConcor(false);
 })

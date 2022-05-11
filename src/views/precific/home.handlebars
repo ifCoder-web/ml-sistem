@@ -402,9 +402,9 @@
 <div class="concorrencia" style="margin-bottom: 300px; margin-top: 60px;">
 	<form action="#">
 		<div class="row mb-4">
-			<div class="col col-4">
-			    <label for="id_item_concor" class="col-form-label">Insira o ID do anúncio</label>
-			    <div class="input-group">
+			<label for="id_item_concor" class="form-label text-center">Insira o ID do anúncio</label>
+			<div class="col col-12 d-flex justify-content-center">			    
+			    <div class="input-group" style="max-width: 400px;">
 				    <input type="text" class="form-control custo_soma" id="id_item_concor" placeholder="Ex: #1897733255">
 				    <span class="btn btn-primary" id="enviarConcor">Analisar</span>
 				</div>
@@ -415,7 +415,7 @@
 	<div id="content_concor">
 		{{!-- Item para analise --}}
 	</div>
-	<button id="clean_concor" class="btn btn-outline-danger"><i class="bi bi-trash"></i> Limpar</button>
+	<button id="clean_concor" class="btn btn-outline-danger ms-auto" style="display: none;"><i class="bi bi-trash"></i> Limpar</button>
 
 
 </div>
@@ -434,4 +434,19 @@
 	document.querySelector("#btn_limpar").addEventListener('click', () => {
 		document.querySelector("#categ").innerHTML = "";
 	});
+
+	// Btn limpar produtos
+	function clearConcor(block){
+		const btnClean = document.querySelector("#clean_concor");
+		if(block == true){
+			if(document.querySelectorAll("#content_concor .card").length > 0){
+				btnClean.style.display = "block";
+			}else{
+				btnClean.style.display = "none";
+			}
+		}else{
+			btnClean.style.display = "none";
+		}		
+	};
+
 </script>
